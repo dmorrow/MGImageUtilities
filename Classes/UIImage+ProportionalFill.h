@@ -20,4 +20,7 @@ typedef enum {
 - (UIImage *)imageCroppedToFitSize:(CGSize)size; // uses MGImageResizeCrop
 - (UIImage *)imageScaledToFitSize:(CGSize)size; // uses MGImageResizeScale
 
+
+- (CGAffineTransform)transformForOrientation:(CGSize)newSize ;
+
 @end
