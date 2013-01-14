@@ -92,12 +92,10 @@
 	
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_4_0
 	CGImageRef sourceImg = nil;
-    
     if (self.imageOrientation == UIImageOrientationRight || self.imageOrientation == UIImageOrientationLeft)
     {
         sourceRect = CGRectMake(sourceRect.origin.y, sourceRect.origin.x, sourceRect.size.height, sourceRect.size.width);
     }
-    
 	if ([UIScreen instancesRespondToSelector:@selector(scale)]) {
 		UIGraphicsBeginImageContextWithOptions(destRect.size, NO, 0.f); // 0.f for scale means "scale for device's main screen".
 		sourceImg = CGImageCreateWithImageInRect([self CGImage], sourceRect); // cropping happens here.
