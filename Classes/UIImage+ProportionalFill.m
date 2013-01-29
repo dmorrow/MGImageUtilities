@@ -11,7 +11,7 @@
 @implementation UIImage (MGProportionalFill)
 
 
-- (UIImage *)imageToFitSize:(CGSize)fitSize method:(MGImageResizingMethod)resizeMethod
+- (UIImage *)imageToFitSize:(CGSize)fitSize method:(MGImageResizingMethod)resizeMethod ignoreScale:(BOOL)ignoreScale
 {
 	float imageScaleFactor = 1.0;
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_4_0
@@ -97,7 +97,8 @@
         sourceRect = CGRectMake(sourceRect.origin.y, sourceRect.origin.x, sourceRect.size.height, sourceRect.size.width);
     }
 	if ([UIScreen instancesRespondToSelector:@selector(scale)]) {
-		UIGraphicsBeginImageContextWithOptions(destRect.size, NO, 0.f); // 0.f for scale means "scale for device's main screen".
+        float newScale = (ignoreScale) ? 1.0f : 0;
+		UIGraphicsBeginImageContextWithOptions(destRect.size, NO, newScale); // 0.f for scale means "scale for device's main screen".
 		sourceImg = CGImageCreateWithImageInRect([self CGImage], sourceRect); // cropping happens here.
 		image = [UIImage imageWithCGImage:sourceImg scale:0.0 orientation:self.imageOrientation]; // create cropped UIImage.
 		
@@ -132,15 +133,20 @@
 }
 
 
+- (UIImage *)imageCroppedToFitSize:(CGSize)fitSize ignoreScale:(BOOL)ignoreScale
+{
+	return [self imageToFitSize:fitSize method:MGImageResizeCrop ignoreScale:ignoreScale];
+}
+
 - (UIImage *)imageCroppedToFitSize:(CGSize)fitSize
 {
-	return [self imageToFitSize:fitSize method:MGImageResizeCrop];
+	return [self imageToFitSize:fitSize method:MGImageResizeCrop ignoreScale:FALSE];
 }
 
 
 - (UIImage *)imageScaledToFitSize:(CGSize)fitSize
 {
-	return [self imageToFitSize:fitSize method:MGImageResizeScale];
+	return [self imageToFitSize:fitSize method:MGImageResizeScale ignoreScale:FALSE];
 }
 
 
