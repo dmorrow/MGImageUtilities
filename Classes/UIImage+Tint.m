@@ -26,7 +26,7 @@
 		
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_4_0
 		if ([UIScreen instancesRespondToSelector:@selector(scale)]) {
-			UIGraphicsBeginImageContextWithOptions([self size], NO, 0.f); // 0.f for scale means "scale for device's main screen".
+			UIGraphicsBeginImageContextWithOptions([self size], NO, self.scale); // 0.f for scale means "scale for device's main screen".
 		} else {
 			UIGraphicsBeginImageContext([self size]);
 		}
